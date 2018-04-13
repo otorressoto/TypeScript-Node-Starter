@@ -1,0 +1,16 @@
+.git/**/*
+coverage/**/*
+dist/**/*
+node_modules/**/*
+src/public/**/*
+views/**/*
+.editorconfig
+.env.example
+.gitignore
+.prettierignore
+Jenkinsfile
+LICENSE
+package-lock.json
+package.json
+tsconfig.json
+tslint.json

@@ -1,17 +1,17 @@
 {
-    "editor.formatOnSave": true,
-    "editor.trimAutoWhitespace": true,
-    "search.exclude": {
-        "**/node_modules": true,
-        "**/bower_components": true,
-        "**/dist": true,
-        "**/coverage": true
-    },
+  "editor.formatOnSave": true,
+  "editor.trimAutoWhitespace": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/dist": true,
+    "**/coverage": true
+  },
 
-    // Extension Settings
-    "eslint.enable": false,
-    "typescript.referencesCodeLens.enabled": true,
-    "tslint.autoFixOnSave": true,
-    "tslint.exclude": "**/node_modules/**/*",
-    "tslint.ignoreDefinitionFiles": false
+  // Extension Settings
+  "eslint.enable": false,
+  "typescript.referencesCodeLens.enabled": true,
+  "tslint.autoFixOnSave": true,
+  "tslint.exclude": "**/node_modules/**/*",
+  "tslint.ignoreDefinitionFiles": false
 }
