@@ -1,18 +1,17 @@
-// Place your settings in this file to overwrite default and user settings.
 {
+    "editor.formatOnSave": true,
+    "editor.trimAutoWhitespace": true,
     "search.exclude": {
         "**/node_modules": true,
         "**/bower_components": true,
         "**/dist": true,
-        "**/coverge": true
+        "**/coverage": true
     },
+
+    // Extension Settings
+    "eslint.enable": false,
     "typescript.referencesCodeLens.enabled": true,
-    "tslint.ignoreDefinitionFiles": false,
     "tslint.autoFixOnSave": true,
     "tslint.exclude": "**/node_modules/**/*",
-    "cSpell.words": [
-        "csrf",
-        "definitelytyped",
-        "promisified"
-    ]
+    "tslint.ignoreDefinitionFiles": false
 }
