@@ -34,7 +34,7 @@ const app = express();
 const mongoUrl = MONGODB_URI;
 mongoose.Promise = Promise;
 mongoose
-  .connect(mongoUrl, { useMongoClient: true })
+  .connect(mongoUrl)
   .then(() => {
     /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
   })
