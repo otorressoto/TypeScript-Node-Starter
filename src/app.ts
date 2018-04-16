@@ -11,7 +11,6 @@ import path from 'path';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import expressValidator from 'express-validator';
-import bluebird from 'bluebird';
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
 
 const MongoStore = mongo(session);
@@ -33,7 +32,7 @@ const app = express();
 
 // Connect to MongoDB
 const mongoUrl = MONGODB_URI;
-(<any>mongoose).Promise = bluebird;
+mongoose.Promise = Promise;
 mongoose
   .connect(mongoUrl, { useMongoClient: true })
   .then(() => {
