@@ -1,9 +1,6 @@
 import request from 'supertest';
 import app from '../src/app';
 
-const chai = require('chai');
-const expect = chai.expect;
-
 describe('GET /login', () => {
   it('should return 200 OK', () => {
     return request(app)
@@ -28,7 +25,7 @@ describe('POST /login', () => {
       .field('password', 'Hunter2')
       .expect(302)
       .end(function(err, res) {
-        expect(res.error).not.to.be.undefined;
+        expect(res.error).not.toBeUndefined();
         done();
       });
   });
