@@ -3,8 +3,6 @@
 coverage/**/*
 dist/**/*
 node_modules/**/*
-src/public/**/*
-views/**/*
 .editorconfig
 .env.example
 .gitignore

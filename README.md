@@ -554,7 +554,6 @@ In that file you'll find two sections:
 | dotenv            | Loads environment variables from .env file.              |
 | errorhandler      | Express 4 middleware.                                    |
 | express           | Node.js web framework.                                   |
-| express-flash     | Provides flash messages for Express.                     |
 | express-session   | Express 4 middleware.                                    |
 | express-validator | Easy form validation for Express.                        |
 | lodash            | General utility library.                                 |
@@ -563,7 +562,6 @@ In that file you'll find two sections:
 | nodemailer        | Node.js library for sending emails.                      |
 | passport          | Simple and elegant authentication library for node.js    |
 | passport-local    | Sign-in with Username and Password plugin.               |
-| pug (jade)        | Template engine for Express.                             |
 | winston           | Logging library                                          |
 
 ## `devDependencies`
@@ -573,7 +571,6 @@ In that file you'll find two sections:
 | @types       | Dependencies in this folder are `.d.ts` files used to provide types    |
 | concurrently | Utility that manages multiple concurrent tasks. Used with npm scripts  |
 | jest         | Testing library for JavaScript.                                        |
-| node-sass    | Allows to compile .scss files to .css                                  |
 | nodemon      | Utility that automatically restarts node process when it crashes       |
 | supertest    | HTTP assertion library.                                                |
 | ts-jest      | A preprocessor with sourcemap support to help use TypeScript wit Jest. |
