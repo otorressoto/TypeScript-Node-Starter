@@ -1,4 +1,5 @@
 {
+  "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "editor.trimAutoWhitespace": true,
   "search.exclude": {
@@ -8,9 +9,23 @@
     "**/coverage": true
   },
 
+  // Per Language Settings
+  "[javascript]": {
+    "editor.rulers": [100],
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.rulers": [100],
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.rulers": [100],
+    "editor.tabSize": 2
+  },
+
   // Extension Settings
   "eslint.enable": false,
-  "typescript.referencesCodeLens.enabled": true,
+  "tslint.alwaysShowRuleFailuresAsWarnings": true,
   "tslint.autoFixOnSave": true,
   "tslint.exclude": "**/node_modules/**/*",
   "tslint.ignoreDefinitionFiles": false
