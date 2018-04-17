@@ -32,7 +32,6 @@ export let postLogin: RequestHandler = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
     return res.redirect('/login');
   }
 
@@ -41,14 +40,12 @@ export let postLogin: RequestHandler = (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      req.flash('errors', info.message);
       return res.redirect('/login');
     }
     req.logIn(user, err => {
       if (err) {
         return next(err);
       }
-      req.flash('success', { msg: 'Success! You are logged in.' });
       res.redirect(req.session.returnTo || '/');
     });
   })(req, res, next);
@@ -89,7 +86,6 @@ export let postSignup: RequestHandler = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
     return res.redirect('/signup');
   }
 
@@ -103,7 +99,6 @@ export let postSignup: RequestHandler = (req, res, next) => {
       return next(err);
     }
     if (existingUser) {
-      req.flash('errors', { msg: 'Account with that email address already exists.' });
       return res.redirect('/signup');
     }
     user.save(err => {
@@ -141,7 +136,6 @@ export let postUpdateProfile: RequestHandler = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
     return res.redirect('/account');
   }
 
@@ -157,14 +151,10 @@ export let postUpdateProfile: RequestHandler = (req, res, next) => {
     user.save((err: WriteError) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', {
-            msg: 'The email address you have entered is already associated with an account.',
-          });
           return res.redirect('/account');
         }
         return next(err);
       }
-      req.flash('success', { msg: 'Profile information has been updated.' });
       res.redirect('/account');
     });
   });
@@ -181,7 +171,6 @@ export let postUpdatePassword: RequestHandler = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
     return res.redirect('/account');
   }
 
@@ -194,7 +183,6 @@ export let postUpdatePassword: RequestHandler = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/account');
     });
   });
@@ -210,7 +198,6 @@ export let postDeleteAccount: RequestHandler = (req, res, next) => {
       return next(err);
     }
     req.logout();
-    req.flash('info', { msg: 'Your account has been deleted.' });
     res.redirect('/');
   });
 };
@@ -231,7 +218,6 @@ export let getOauthUnlink: RequestHandler = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      req.flash('info', { msg: `${provider} account has been unlinked.` });
       res.redirect('/account');
     });
   });
@@ -253,7 +239,6 @@ export let getReset: RequestHandler = (req, res, next) => {
         return next(err);
       }
       if (!user) {
-        req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
         return res.redirect('/forgot');
       }
       res.render('account/reset', {
@@ -273,7 +258,6 @@ export let postReset: RequestHandler = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
     return res.redirect('back');
   }
 
@@ -288,7 +272,6 @@ export let postReset: RequestHandler = (req, res, next) => {
               return next(err);
             }
             if (!user) {
-              req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
               return res.redirect('back');
             }
             user.password = req.body.password;
@@ -321,7 +304,6 @@ export let postReset: RequestHandler = (req, res, next) => {
           } has just been changed.\n`,
         };
         transporter.sendMail(mailOptions, err => {
-          req.flash('success', { msg: 'Success! Your password has been changed.' });
           done(err);
         });
       },
@@ -359,7 +341,6 @@ export let postForgot: RequestHandler = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
     return res.redirect('/forgot');
   }
 
@@ -377,7 +358,6 @@ export let postForgot: RequestHandler = (req, res, next) => {
             return done(err);
           }
           if (!user) {
-            req.flash('errors', { msg: 'Account with that email address does not exist.' });
             return res.redirect('/forgot');
           }
           user.passwordResetToken = token;
@@ -405,9 +385,6 @@ export let postForgot: RequestHandler = (req, res, next) => {
           If you did not request this, please ignore this email and your password will remain unchanged.\n`,
         };
         transporter.sendMail(mailOptions, err => {
-          req.flash('info', {
-            msg: `An e-mail has been sent to ${user.email} with further instructions.`,
-          });
           done(err);
         });
       },
