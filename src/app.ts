@@ -1,16 +1,15 @@
-import express from 'express';
-import compression from 'compression'; // compresses requests
-import session from 'express-session';
 import bodyParser from 'body-parser';
-import logger from './util/logger';
-import lusca from 'lusca';
-import dotenv from 'dotenv';
+import compression from 'compression';
 import mongo from 'connect-mongo';
+import dotenv from 'dotenv';
+import express from 'express';
 import flash from 'express-flash';
-import path from 'path';
+import session from 'express-session';
+import expressValidator from 'express-validator';
+import lusca from 'lusca';
 import mongoose from 'mongoose';
 import passport from 'passport';
-import expressValidator from 'express-validator';
+import path from 'path';
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
 
 const MongoStore = mongo(session);

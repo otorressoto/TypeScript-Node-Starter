@@ -1,10 +1,10 @@
-import { Response, Request, NextFunction } from 'express';
+import { RequestHandler } from 'express';
 
 /**
  * GET /api
  * List of API examples.
  */
-export let getApi = (req: Request, res: Response) => {
+export let getApi: RequestHandler = (req, res) => {
   res.render('api/index', {
     title: 'API Examples',
   });

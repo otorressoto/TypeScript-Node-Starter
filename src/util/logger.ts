@@ -1,17 +1,17 @@
 import winston from 'winston';
 import { Logger } from 'winston';
-import { ENVIRONMENT } from './secrets';
+import { environment } from './environment';
 
 const logger = new Logger({
   transports: [
     new winston.transports.Console({
-      level: process.env.NODE_ENV === 'production' ? 'error' : 'debug',
+      level: environment.isProduction ? 'error' : 'debug',
     }),
     new winston.transports.File({ filename: 'debug.log', level: 'debug' }),
   ],
 });
 
-if (process.env.NODE_ENV !== 'production') {
+if (environment.isDebug) {
   logger.debug('Logging initialized at debug level');
 }
 

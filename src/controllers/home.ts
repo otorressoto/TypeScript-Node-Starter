@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 
 /**
  * GET /
  * Home page.
  */
-export let index = (req: Request, res: Response) => {
+export let index: RequestHandler = (req, res) => {
   res.render('home', {
     title: 'Home',
   });
