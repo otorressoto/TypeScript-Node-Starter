@@ -2,7 +2,7 @@ import _ from 'lodash';
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import { RequestHandler } from 'express';
-import { default as User } from '../models/User';
+import { default as User } from '../models/user';
 
 const LocalStrategy = passportLocal.Strategy;
 
