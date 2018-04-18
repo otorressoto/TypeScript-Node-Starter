@@ -1,8 +1,16 @@
 import bcrypt from 'bcrypt-nodejs';
-import crypto from 'crypto';
 import mongoose from 'mongoose';
 
-export type UserModel = mongoose.Document & {
+export interface AuthToken {
+  accessToken: string;
+  kind: string;
+}
+
+export interface ComparePasswordFunction {
+  (candidatePassword: string, cb: (err: Error, isMatch: boolean) => any): void;
+}
+
+export interface UserDocument extends mongoose.Document {
   email: string;
   password: string;
   passwordResetToken: string;
@@ -18,19 +26,8 @@ export type UserModel = mongoose.Document & {
     picture: string;
   };
 
-  comparePassword: comparePasswordFunction;
-  gravatar: (size: number) => string;
-};
-
-type comparePasswordFunction = (
-  candidatePassword: string,
-  cb: (err: any, isMatch: any) => {}
-) => void;
-
-export type AuthToken = {
-  accessToken: string;
-  kind: string;
-};
+  comparePassword: ComparePasswordFunction;
+}
 
 const userSchema = new mongoose.Schema(
   {
@@ -55,7 +52,7 @@ const userSchema = new mongoose.Schema(
 /**
  * Password hash middleware.
  */
-userSchema.pre<UserModel>('save', function save(next) {
+userSchema.pre<UserDocument>('save', function save(next) {
   const user = this;
   if (!user.isModified('password')) {
     return next();
@@ -64,7 +61,7 @@ userSchema.pre<UserModel>('save', function save(next) {
     if (err) {
       return next(err);
     }
-    bcrypt.hash(user.password, salt, undefined, (err: mongoose.Error, hash) => {
+    bcrypt.hash(user.password, salt, undefined, (err, hash) => {
       if (err) {
         return next(err);
       }
@@ -74,31 +71,13 @@ userSchema.pre<UserModel>('save', function save(next) {
   });
 });
 
-const comparePassword: comparePasswordFunction = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
+const comparePassword: ComparePasswordFunction = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     cb(err, isMatch);
   });
 };
 
 userSchema.methods.comparePassword = comparePassword;
 
-/**
- * Helper method for getting user's gravatar.
- */
-userSchema.methods.gravatar = function(size: number) {
-  if (!size) {
-    size = 200;
-  }
-  if (!this.email) {
-    return `https://gravatar.com/avatar/?s=${size}&d=retro`;
-  }
-  const md5 = crypto
-    .createHash('md5')
-    .update(this.email)
-    .digest('hex');
-  return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
-};
-
-// export const User: UserType = mongoose.model<UserType>('User', userSchema);
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model<UserDocument>('User', userSchema);
 export default User;

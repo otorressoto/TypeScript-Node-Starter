@@ -1,6 +1,5 @@
-import winston from 'winston';
-import { Logger } from 'winston';
-import { environment } from './environment';
+import { default as winston, Logger } from 'winston';
+import environment from './environment';
 
 const logger = new Logger({
   transports: [
@@ -13,6 +12,7 @@ const logger = new Logger({
 
 if (environment.isDebug) {
   logger.debug('Logging initialized at debug level');
+  logger.debug(`Using ${environment.source} file to supply config environment variables`);
 }
 
 export default logger;
