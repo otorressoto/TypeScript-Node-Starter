@@ -13,9 +13,8 @@ import { MONGODB_URI, SESSION_SECRET } from './utils/secrets';
 // API keys and Passport configuration
 import * as passportConfig from './config/passport';
 
-// Controllers (route handlers)
-// import * as userController from './controllers/user';
-// import * as apiController from './controllers/api';
+// Routes
+import users from './routes/users';
 
 // Connect to MongoDB
 const mongoUrl = MONGODB_URI;
@@ -60,6 +59,6 @@ app.use(
 );
 
 // API routes.
-// app.get('/api', apiController.getApi);
+app.use('/users', users);
 
 export default app;
