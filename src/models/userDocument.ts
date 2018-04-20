@@ -6,7 +6,7 @@ export interface AuthToken {
 }
 
 export interface ComparePasswordFunction {
-  (candidatePassword: string, cb: (err: Error, isMatch: boolean) => any): void;
+  (candidatePassword: string, cb: (err: Error, isMatch: boolean) => void): void;
 }
 
 export interface UserDocument extends mongoose.Document {

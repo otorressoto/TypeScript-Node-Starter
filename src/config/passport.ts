@@ -2,15 +2,16 @@ import _ from 'lodash';
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import { RequestHandler } from 'express';
-import { default as User } from '../models/user';
+import User from '../models/user';
+import UserDocument from '../models/userDocument';
 
 const LocalStrategy = passportLocal.Strategy;
 
-passport.serializeUser<any, any>((user, done) => {
+passport.serializeUser<UserDocument, any>((user, done) => {
   done(undefined, user.id);
 });
 
-passport.deserializeUser((id, done) => {
+passport.deserializeUser<UserDocument, any>((id, done) => {
   User.findById(id, (err, user) => {
     done(err, user);
   });
@@ -35,7 +36,7 @@ passport.use(
         if (isMatch) {
           return done(undefined, user);
         }
-        return done(undefined, false, { message: 'Invalid email or password.' });
+        done(undefined, false, { message: 'Invalid email or password.' });
       });
     });
   })
