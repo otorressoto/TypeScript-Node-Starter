@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import mongo from 'connect-mongo';
 import express from 'express';
@@ -14,7 +13,7 @@ import { MONGODB_URI, SESSION_SECRET } from './utils/secrets';
 import * as passportConfig from './config/passport';
 
 // Routes
-import users from './routes/users';
+import usersRouter from './routes/users';
 
 // Connect to MongoDB
 const mongoUrl = MONGODB_URI;
@@ -34,8 +33,8 @@ const app = express();
 // Express configuration
 app.set('port', process.env.PORT || 3000);
 app.use(compression());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,6 +58,6 @@ app.use(
 );
 
 // API routes.
-app.use('/users', users);
+app.use('/users', usersRouter);
 
 export default app;
