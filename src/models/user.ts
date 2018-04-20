@@ -1,33 +1,6 @@
 import bcrypt from 'bcrypt-nodejs';
 import mongoose from 'mongoose';
-
-export interface AuthToken {
-  accessToken: string;
-  kind: string;
-}
-
-export interface ComparePasswordFunction {
-  (candidatePassword: string, cb: (err: Error, isMatch: boolean) => any): void;
-}
-
-export interface UserDocument extends mongoose.Document {
-  email: string;
-  password: string;
-  passwordResetToken: string;
-  passwordResetExpires: Date;
-
-  tokens: AuthToken[];
-
-  profile: {
-    name: string;
-    gender: string;
-    location: string;
-    website: string;
-    picture: string;
-  };
-
-  comparePassword: ComparePasswordFunction;
-}
+import { ComparePasswordFunction, UserDocument } from './userDocument';
 
 const userSchema = new mongoose.Schema(
   {
@@ -79,5 +52,4 @@ const comparePassword: ComparePasswordFunction = function(candidatePassword, cb)
 
 userSchema.methods.comparePassword = comparePassword;
 
-const User = mongoose.model<UserDocument>('User', userSchema);
-export default User;
+export default mongoose.model<UserDocument>('User', userSchema);
