@@ -8,7 +8,7 @@ import lusca from 'lusca';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import path from 'path';
-import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
+import { MONGODB_URI, SESSION_SECRET } from './utils/secrets';
 
 // API keys and Passport configuration
 import * as passportConfig from './config/passport';
