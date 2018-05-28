@@ -1,17 +1,17 @@
 import _ from 'lodash';
 import passport from 'passport';
 import passportLocal from 'passport-local';
+
 import { RequestHandler } from 'express';
-import User from '../models/user';
-import UserDocument from '../models/userDocument';
+import { User, UserDocument } from '../models/user';
 
 const LocalStrategy = passportLocal.Strategy;
 
-passport.serializeUser<UserDocument, any>((user, done) => {
+passport.serializeUser<UserDocument, string>((user, done) => {
   done(undefined, user.id);
 });
 
-passport.deserializeUser<UserDocument, any>((id, done) => {
+passport.deserializeUser<UserDocument, string>((id, done) => {
   User.findById(id, (err, user) => {
     done(err, user);
   });

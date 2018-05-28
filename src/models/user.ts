@@ -1,8 +1,17 @@
 import bcrypt from 'bcrypt-nodejs';
-import mongoose from 'mongoose';
-import { ComparePasswordFunction, UserDocument } from './userDocument';
+import { Document, Schema, model } from 'mongoose';
+import { Timestamp } from './timestamp';
+import { UserDefinition } from './userDefinition';
 
-const userSchema = new mongoose.Schema(
+export interface ComparePasswordFunction {
+  (candidatePassword: string, cb: (err: Error, isMatch: boolean) => void): void;
+}
+
+export interface UserDocument extends Document, Timestamp, UserDefinition {
+  comparePassword: ComparePasswordFunction;
+}
+
+const userSchema = new Schema(
   {
     email: { type: String, unique: true },
     password: String,
@@ -52,4 +61,7 @@ const comparePassword: ComparePasswordFunction = function(candidatePassword, cb)
 
 userSchema.methods.comparePassword = comparePassword;
 
-export default mongoose.model<UserDocument>('User', userSchema);
+const User = model<UserDocument>('User', userSchema);
+
+export { User };
+export default User;
