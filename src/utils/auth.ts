@@ -1,11 +1,7 @@
-import _ from 'lodash';
 import passport from 'passport';
-import passportLocal from 'passport-local';
+import { Strategy as ClientCertStrategy } from 'passport-client-cert';
 
-import { RequestHandler } from 'express';
 import { User, UserDocument } from '../models/user';
-
-const LocalStrategy = passportLocal.Strategy;
 
 passport.serializeUser<UserDocument, string>((user, done) => {
   done(undefined, user.id);
@@ -18,46 +14,20 @@ passport.deserializeUser<UserDocument, string>((id, done) => {
 });
 
 /**
- * Sign in using Email and Password.
+ * Sign in using client certificate authentication.
  */
 passport.use(
-  new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-    User.findOne({ email: email.toLowerCase() }, (err, user) => {
-      if (err) {
-        return done(err);
-      }
-      if (!user) {
-        return done(undefined, false, { message: `Email ${email} not found.` });
-      }
-      user.comparePassword(password, (err, isMatch) => {
-        if (err) {
-          return done(err);
+  new ClientCertStrategy({ passReqToCallback: true }, (req, cert, done) => {
+    const cn = (req.headers.cn as string) || cert.subject.CN;
+
+    User.findOne({ cn: cn })
+      .then(user => {
+        if (user) {
+          return user;
         }
-        if (isMatch) {
-          return done(undefined, user);
-        }
-        done(undefined, false, { message: 'Invalid email or password.' });
-      });
-    });
+        return new User({ cn: cn }).save();
+      })
+      .then(doc => done(undefined, doc))
+      .catch(err => done(err));
   })
 );
-
-/**
- * Login Required middleware.
- */
-export let isAuthenticated: RequestHandler = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-};
-
-/**
- * Authorization Required middleware.
- */
-export let isAuthorized: RequestHandler = (req, res, next) => {
-  const provider = req.path.split('/').slice(-1)[0];
-
-  if (_.find(req.user.tokens, { kind: provider })) {
-    next();
-  }
-};

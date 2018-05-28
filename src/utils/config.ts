@@ -2,6 +2,9 @@ import environment from './environment';
 import logger from './logger';
 
 const config = {
+  auth: {
+    ca: process.env.AUTH_CA,
+  },
   mongodb: {
     uri: environment.isProduction ? process.env.MONGODB_URI : process.env.MONGODB_URI_LOCAL,
   },
@@ -17,7 +20,9 @@ const config = {
 
 let error: { msg: string; env: string };
 
-if (!config.mongodb.uri) {
+if (!config.auth.ca) {
+  error = { msg: 'No CA bundle specified', env: 'AUTH_CA' };
+} else if (!config.mongodb.uri) {
   error = { msg: 'No mongo connection string', env: 'MONGODB_URI' };
 } else if (!config.server.cert) {
   error = { msg: 'No server certificate assigned', env: 'SSL_CERT' };

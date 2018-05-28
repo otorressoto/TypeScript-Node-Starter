@@ -1,6 +1,7 @@
 import { AuthToken } from './authToken';
 
 interface UserDefinition {
+  cn: string;
   email: string;
   password: string;
   passwordResetToken: string;

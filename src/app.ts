@@ -42,8 +42,10 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 365 * 24 * 60 *
 const MongoStore = mongo(session);
 app.use(
   session({
-    resave: true,
-    saveUninitialized: true,
+    name: 'app.sid',
+    cookie: { httpOnly: false, secure: true },
+    resave: false,
+    saveUninitialized: false,
     secret: config.session.secret,
     store: new MongoStore({
       url: config.mongodb.uri,
@@ -55,6 +57,7 @@ app.use(
 // Passport setup and configuration
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate('client-cert'));
 
 // API routes
 app.use('/users', usersRouter);

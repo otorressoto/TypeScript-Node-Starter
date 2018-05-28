@@ -14,11 +14,14 @@ if (!environment.isProduction) {
 }
 
 /**
- * Setup HTTPS
+ * Setup HTTPS and client certificate authentication options.
  */
 const options: https.ServerOptions = {
   cert: fs.readFileSync(config.server.cert),
   key: fs.readFileSync(config.server.key),
+  ca: fs.readFileSync(config.auth.ca),
+  requestCert: true,
+  rejectUnauthorized: false,
 };
 
 /**

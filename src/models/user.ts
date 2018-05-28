@@ -13,7 +13,8 @@ export interface UserDocument extends Document, Timestamp, UserDefinition {
 
 const userSchema = new Schema(
   {
-    email: { type: String, unique: true },
+    cn: { type: String, unique: true },
+    email: String,
     password: String,
     passwordResetToken: String,
     passwordResetExpires: Date,

@@ -33,6 +33,7 @@
     "mongoose-throw-if-not-found-plugin": "^0.1.0",
     "nodemailer": "^4.6.4",
     "passport": "^0.4.0",
+    "passport-client-cert": "^2.1.0",
     "passport-local": "^1.0.0",
     "winston": "^2.4.1"
   },
