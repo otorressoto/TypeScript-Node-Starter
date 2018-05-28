@@ -1,6 +1,9 @@
 import errorHandler from 'errorhandler';
+import fs from 'fs';
+import https from 'https';
 
 import app from './app';
+import config from './utils/config';
 import environment from './utils/environment';
 
 /**
@@ -11,11 +14,19 @@ if (!environment.isProduction) {
 }
 
 /**
+ * Setup HTTPS
+ */
+const options: https.ServerOptions = {
+  cert: fs.readFileSync(config.server.cert),
+  key: fs.readFileSync(config.server.key),
+};
+
+/**
  * Start Express server.
  */
-const server = app.listen(app.get('port'), () => {
+const server = https.createServer(options, app).listen(app.get('port'), () => {
   console.log(
-    '  App is running at http://localhost:%d in %s mode',
+    '  App is running at https://localhost:%d in %s mode',
     app.get('port'),
     environment.target
   );
