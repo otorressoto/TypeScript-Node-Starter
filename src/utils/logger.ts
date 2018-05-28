@@ -15,4 +15,5 @@ if (environment.isDebug) {
   logger.debug(`Using ${environment.source} file to supply config environment variables`);
 }
 
+export { logger };
 export default logger;

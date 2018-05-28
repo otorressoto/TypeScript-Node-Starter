@@ -4,13 +4,21 @@ import fs from 'fs';
 // Load environment variables from .env file, where API keys and passwords are configured
 const defaultSource = '.env';
 const source = fs.existsSync(defaultSource) ? defaultSource : '.env.example';
-dotenv.config({ path: source });
+const result = dotenv.config({ path: source });
+
+if (result.error) {
+  throw result.error;
+}
+
+const target = process.env.NODE_ENV;
+const isProduction = target === 'production';
 
 const environment = {
-  target: process.env.NODE_ENV,
-  isProduction: process.env.NODE_ENV === 'production',
-  isDebug: process.env.NODE_ENV !== 'production',
+  target: target,
+  isProduction: isProduction,
+  isDebug: !isProduction,
   source: source,
 };
 
+export { environment };
 export default environment;
