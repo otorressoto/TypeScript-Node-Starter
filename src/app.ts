@@ -5,6 +5,8 @@ import session from 'express-session';
 import expressValidator from 'express-validator';
 import lusca from 'lusca';
 import mongoose from 'mongoose';
+import mongooseHidden from 'mongoose-hidden';
+import 'mongoose-throw-if-not-found-plugin';
 import passport from 'passport';
 import path from 'path';
 import { MONGODB_URI, SESSION_SECRET } from './utils/secrets';
@@ -15,17 +17,13 @@ import * as passportConfig from './config/passport';
 // Routes
 import usersRouter from './routes/users';
 
-// Connect to MongoDB
+// Setup Mongoose (MongoDB ORM)
 const mongoUrl = MONGODB_URI;
 mongoose.Promise = Promise;
-mongoose
-  .connect(mongoUrl)
-  .then(() => {
-    // Connected, the `mongoose.connect()` promise resolves to undefined.
-  })
-  .catch(err => {
-    console.log('MongoDB connection error. Please make sure MongoDB is running. ' + err);
-  });
+mongoose.plugin(mongooseHidden({ defaultHidden: { _id: false } }));
+mongoose.connect(mongoUrl).catch(err => {
+  console.log('MongoDB connection error. Please make sure MongoDB is running. ' + err);
+});
 
 // Create Express server
 const app = express();
